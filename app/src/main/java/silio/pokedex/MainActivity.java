@@ -3,6 +3,7 @@ package silio.pokedex;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.List;
+
+import me.sargunvohra.lib.pokekotlin.model.PokemonSpecies;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +46,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Get Pokémons
+        Log.d("POKEAPI", "Initiating HTTP request on a separate thread");
+        try {
+            List<PokemonSpecies> result = new RequestPokemonsTask().execute(1, 2, 3, 4).get();
+            Log.d("POKEAPI", result.toString());
+            Log.d("POKEAPI", "Success");
+        } catch(Exception e) {
+            Log.d("POKEAPI", "Error" + e.toString());
+        }
     }
 
     @Override
@@ -99,3 +115,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 }
+
+
+

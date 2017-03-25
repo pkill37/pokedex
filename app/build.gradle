@@ -29,4 +29,6 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    compile 'me.sargunvohra.lib:pokekotlin:2.3.0'
 }
