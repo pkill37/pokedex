@@ -11,6 +11,6 @@ public enum Type {
     }
 
     public int color() {
-        return color;
+        return this.color;
     }
 }

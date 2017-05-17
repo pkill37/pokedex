@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -7,6 +7,30 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="Badge" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:minWidth">5dp</item>
+        <item name="android:minHeight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+    </style>
+
+    <style name="StatLabel">
+        <!--<item name="android:paddingRight">22dp</item>-->
+    </style>
+
+    <style name="StatBar" parent="android:Widget.Material.ProgressBar.Horizontal">
+
+    </style>
+
+    <style name="StatValue">
+        <!--<item name="android:paddingLeft">22dp</item>-->
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
