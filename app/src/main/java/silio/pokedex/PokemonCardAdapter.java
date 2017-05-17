@@ -72,7 +72,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             sprite = (ImageView) itemView.findViewById(R.id.sprite);
             primaryTypeColor = itemView.findViewById(R.id.primary_type_color);
             secondaryTypeColor = itemView.findViewById(R.id.secondary_type_color);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            pokemonCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
