@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView mRecyclerView;
     private PokemonCardAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private GridLayoutManager mLayoutManager;
     // could be put in a sort of Utils class, that'd be nice
     private final String baseURL = "http://pokeapi.co/api/v2/";
 
@@ -74,18 +76,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // don't think we need a mail functionality
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -99,19 +89,42 @@ public class MainActivity extends AppCompatActivity
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mRecyclerView.smoothScrollToPosition(0);
+
+            }
+        });
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         // true for now, don't feel like using it tho
         //mRecyclerView.setHasFixedSize(true);
 
         // "good" enough way of solving portrait orientation problems
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        }
-        else{
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        }
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            mLayoutManager = new GridLayoutManager(this, 2);
+        else
+            mLayoutManager = new GridLayoutManager(this, 3);
 
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int visibility = (mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) ? View.VISIBLE : View.GONE;
+                fab.setVisibility(visibility);
+            }
+        });
 
         // Get Pokémons
 
@@ -140,6 +153,18 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void setFloatingActionButton(final View view) {
+        FloatingActionButton actionButton = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.fab);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView
+                        .getLayoutManager();
+                layoutManager.scrollToPositionWithOffset(0, 0);
+            }
+        });
+    }
+
 
     // ActionBar Stuff
 
@@ -148,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        final MenuItem searchViewItem = menu.findItem(R.id.action_search);
         if (searchViewItem != null) {
             tintMenuIcon(MainActivity.this, searchViewItem, android.R.color.white);
         }
@@ -159,12 +184,14 @@ public class MainActivity extends AppCompatActivity
         searchViewAndroidActionBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 searchViewAndroidActionBar.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 if ( TextUtils.isEmpty ( newText ) ) {
                     mAdapter.getFilter().filter("");
                 } else {
@@ -172,6 +199,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 return true;
             }
+
         });
 
         return super.onCreateOptionsMenu(menu);
@@ -186,6 +214,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
+
             return true;
         }
 

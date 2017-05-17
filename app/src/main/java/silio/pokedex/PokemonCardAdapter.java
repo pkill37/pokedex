@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,9 +119,11 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
         // load sprite to card
         Uri uri = pokemonCardList.get(position).getSpriteURI();
         Context context = pokemonHolder.sprite.getContext();
-        Picasso.with(context).load(uri)
-                .into(pokemonHolder.sprite);
-
+        if(pokemonName.equals("ditto"))
+            Picasso.with(context).load(R.drawable.easter).into(pokemonHolder.sprite);
+        else
+            Picasso.with(context).load(uri)
+                   .into(pokemonHolder.sprite);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

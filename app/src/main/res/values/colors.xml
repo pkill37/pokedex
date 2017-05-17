@@ -4,7 +4,7 @@
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D32F2F</color>
     <color name="colorPrimaryLight">#ffcdd2</color>
-    <color name="colorAccent">#03A9F4</color>
+    <color name="colorAccent">#26A69A</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
@@ -19,7 +19,7 @@
     <color name="colorBugType">#AED581</color>
     <color name="colorWaterType">#4FC3F7</color>
     <color name="colorIceType">#84FFFF</color>
-    <color name="colorFlyingType">#90CAF9</color>
+    <color name="colorFlyingType">#80d8ff</color>
     <color name="colorFightingType">#E57373</color>
     <color name="colorFireType">#FFB74D</color>
     <color name="colorElectricType">#FFEE58</color>
