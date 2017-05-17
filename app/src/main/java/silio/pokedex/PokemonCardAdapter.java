@@ -1,6 +1,7 @@
 package silio.pokedex;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
@@ -75,8 +76,8 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             pokemonCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    Toast.makeText(itemView.getContext(), Integer.toString(pos), Toast.LENGTH_SHORT).show();
+                    Context context = v.getContext();
+                    context.startActivity(new Intent(context, PokemonActivity.class));
                 }
             });
         }
