@@ -12,9 +12,12 @@ import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -52,10 +55,10 @@ import me.sargunvohra.lib.pokekotlin.model.PokemonType;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private PokemonCardAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     // could be put in a sort of Utils class, that'd be nice
     private final String baseURL = "http://pokeapi.co/api/v2/";
@@ -145,14 +148,33 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        if (menuItem != null) {
-            tintMenuIcon(MainActivity.this, menuItem, android.R.color.white);
-            Log.i("W","Whitened");
+        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        if (searchViewItem != null) {
+            tintMenuIcon(MainActivity.this, searchViewItem, android.R.color.white);
         }
 
+        final SearchView searchViewAndroidActionBar = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchViewAndroidActionBar.setMaxWidth( Integer.MAX_VALUE );
 
-        return true;
+        searchViewAndroidActionBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchViewAndroidActionBar.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if ( TextUtils.isEmpty ( newText ) ) {
+                    mAdapter.getFilter().filter("");
+                } else {
+                    mAdapter.getFilter().filter(newText);
+                }
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -170,6 +192,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     // Easy way to bypass Theme shenanigans
     public static void tintMenuIcon(Context context, MenuItem item, @ColorRes int color) {
         Drawable normalDrawable = item.getIcon();
@@ -179,7 +202,7 @@ public class MainActivity extends AppCompatActivity
         item.setIcon(wrapDrawable);
     }
 
-    // NavBar Stugg
+    // NavBar Stuff
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -206,7 +229,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    // used to get card info from @assets/pokemon_cards.json
+    // gets card info from @assets/pokemon_cards.json
     public String loadJSONFromAsset() {
         String json = null;
         try {
@@ -232,8 +255,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //gets first 151 pokemon card info from file
-    // not in separate class to 'cause private references are useful
+    // gets first 151 pokemon card info from file
+    // not in separate class 'cause private references are useful
     private class RequestPokemonCardsTask extends AsyncTask<Void, Integer, List<PokemonCard>> {
 
         List<PokemonCard> pokemonCardList = new ArrayList<>();
@@ -269,7 +292,8 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(List<PokemonCard> pokemonCardList) {
             super.onPostExecute(pokemonCardList);
-            mRecyclerView.setAdapter(new PokemonCardAdapter(pokemonCardList));
+            mAdapter = new PokemonCardAdapter(pokemonCardList);
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 

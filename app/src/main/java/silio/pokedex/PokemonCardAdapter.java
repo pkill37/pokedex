@@ -12,12 +12,14 @@ import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter.PokemonCardViewHolder> {
 
     private List<PokemonCard> pokemonCardList;
+    private List<PokemonCard> originalList;
 
     private static final HashMap<String, Integer> typeColor;
     static
@@ -97,14 +100,15 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     public void onBindViewHolder(PokemonCardViewHolder pokemonHolder, int position) {
 
 
-        String pokemonName = pokemonCardList.get(position).pokemon_name;
+        String pokemonName = pokemonCardList.get(position).getPokemonName();
         String pokemonNameCapitalized = pokemonName.substring(0,1).toUpperCase() + pokemonName.substring(1);
         pokemonHolder.pokemonName.setText(pokemonNameCapitalized);
 
-        String primaryType = pokemonCardList.get(position).primary_type;
+        String primaryType = pokemonCardList.get(position).getPrimaryType();
+        Log.i("TG",primaryType);
         pokemonHolder.primaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
 
-        Integer secondaryColorResource = typeColor.get(pokemonCardList.get(position).secondary_type);
+        Integer secondaryColorResource = typeColor.get(pokemonCardList.get(position).getSecondaryType());
 
         if(secondaryColorResource != null)
             pokemonHolder.secondaryTypeColor.setBackgroundResource(secondaryColorResource);
@@ -112,7 +116,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             pokemonHolder.secondaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
 
         // load sprite to card
-        Uri uri = pokemonCardList.get(position).spriteURI;
+        Uri uri = pokemonCardList.get(position).getSpriteURI();
         Context context = pokemonHolder.sprite.getContext();
         Picasso.with(context).load(uri)
                 .into(pokemonHolder.sprite);
@@ -124,7 +128,49 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     public int getItemCount() {
         return pokemonCardList.size();
     }
-    
+
+    // add search functionality
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                final FilterResults oReturn = new FilterResults();
+                final List<PokemonCard> results = new ArrayList<PokemonCard>();
+
+                if (originalList == null)
+                    originalList = pokemonCardList;
+
+                if (constraint != null) {
+                    if (originalList != null & originalList.size() > 0) {
+                        for (final PokemonCard g : originalList) {
+                            String searchSubstring = constraint.toString().toLowerCase().trim();
+                            boolean matchesSecondaryType = false;
+                            
+                            if(g.getSecondaryType() != null)
+                                matchesSecondaryType = g.getSecondaryType().toLowerCase().contains(searchSubstring);
+
+                            if (g.getPrimaryType().toLowerCase().contains(searchSubstring) ||
+                                matchesSecondaryType ||
+                                g.getPokemonName().toLowerCase().contains(searchSubstring) ||
+                                Integer.toString(g.getId()).contains(searchSubstring))
+
+                                results.add(g);
+                        }
+                    }
+                    oReturn.values = results;
+                }
+                return oReturn;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                pokemonCardList = (ArrayList<PokemonCard>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 }
 
 
