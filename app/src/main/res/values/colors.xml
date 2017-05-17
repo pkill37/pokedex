@@ -3,10 +3,31 @@
 <resources>
     <color name="colorPrimary">#F44336</color>
     <color name="colorPrimaryDark">#D32F2F</color>
-    <color name="colorPrimaryLight">#FFCDD2</color>
+    <color name="colorPrimaryLight">#ffcdd2</color>
     <color name="colorAccent">#03A9F4</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
+    <!--pokemon type colors-->
+    <color name="colorFairyType">#EA80FC</color>
+    <color name="colorPsychicType">#BA68C8</color>
+    <color name="colorPoisonType">#9575CD</color>
+    <color name="colorGhostType">#3F51B5</color>
+    <color name="colorDragonType">#7c4dff</color>
+    <color name="colorGrassType">#81C784</color>
+    <color name="colorBugType">#AED581</color>
+    <color name="colorWaterType">#4FC3F7</color>
+    <color name="colorIceType">#84FFFF</color>
+    <color name="colorFlyingType">#90CAF9</color>
+    <color name="colorFightingType">#E57373</color>
+    <color name="colorFireType">#FFB74D</color>
+    <color name="colorElectricType">#FFEE58</color>
+    <color name="colorDarkType">#616161</color>
+    <color name="colorSteelType">#90A4AE</color>
+    <color name="colorRockType">#E0E0E0</color>
+    <color name="colorNormalType">#FFE0B2</color>
+    <color name="colorGroundType">#A1887F</color>
+
+
 </resources>

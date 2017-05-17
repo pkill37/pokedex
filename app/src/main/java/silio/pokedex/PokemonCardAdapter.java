@@ -1,0 +1,130 @@
+package silio.pokedex;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter.PokemonCardViewHolder> {
+
+    private List<PokemonCard> pokemonCardList;
+
+    private static final HashMap<String, Integer> typeColor;
+    static
+    {
+        typeColor = new HashMap<>();
+        typeColor.put("grass", R.color.colorGrassType);
+        typeColor.put("fire", R.color.colorFireType);
+        typeColor.put("water", R.color.colorWaterType);
+        typeColor.put("bug", R.color.colorBugType);
+        typeColor.put("normal", R.color.colorNormalType);
+        typeColor.put("poison", R.color.colorPoisonType);
+        typeColor.put("electric", R.color.colorElectricType);
+        typeColor.put("flying", R.color.colorFlyingType);
+        typeColor.put("ground", R.color.colorGroundType);
+        typeColor.put("fairy", R.color.colorFairyType);
+        typeColor.put("fighting", R.color.colorFightingType);
+        typeColor.put("psychic", R.color.colorPsychicType);
+        typeColor.put("rock", R.color.colorRockType);
+        typeColor.put("ghost", R.color.colorGhostType);
+        typeColor.put("steel", R.color.colorSteelType);
+        typeColor.put("ice", R.color.colorIceType);
+        typeColor.put("dark", R.color.colorDarkType);
+        typeColor.put("dragon", R.color.colorDragonType);
+    }
+
+
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public static class PokemonCardViewHolder extends RecyclerView.ViewHolder {
+        CardView pokemonCard;
+        ImageView sprite;
+        TextView pokemonName;
+        View primaryTypeColor;
+        View secondaryTypeColor;
+
+        PokemonCardViewHolder(final View itemView) {
+            super(itemView);
+            pokemonCard = (CardView) itemView.findViewById(R.id.pokemon_card);
+            pokemonName = (TextView) itemView.findViewById(R.id.pokemon_name);
+            sprite = (ImageView) itemView.findViewById(R.id.sprite);
+            primaryTypeColor = itemView.findViewById(R.id.primary_type_color);
+            secondaryTypeColor = itemView.findViewById(R.id.secondary_type_color);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Toast.makeText(itemView.getContext(), Integer.toString(pos), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public PokemonCardAdapter(List<PokemonCard> pokemonCardList) {
+        this.pokemonCardList = pokemonCardList;
+    }
+
+    // Create new views (invoked by the layout manager)
+    @Override
+    public PokemonCardViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pokemon_card, parent, false);
+        PokemonCardViewHolder pcvh = new PokemonCardViewHolder(v);
+        return pcvh;
+    }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    // used when contents come into view
+    // card info relative to position is treated here
+    @Override
+    public void onBindViewHolder(PokemonCardViewHolder pokemonHolder, int position) {
+
+
+        String pokemonName = pokemonCardList.get(position).pokemon_name;
+        String pokemonNameCapitalized = pokemonName.substring(0,1).toUpperCase() + pokemonName.substring(1);
+        pokemonHolder.pokemonName.setText(pokemonNameCapitalized);
+
+        String primaryType = pokemonCardList.get(position).primary_type;
+        pokemonHolder.primaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
+
+        Integer secondaryColorResource = typeColor.get(pokemonCardList.get(position).secondary_type);
+
+        if(secondaryColorResource != null)
+            pokemonHolder.secondaryTypeColor.setBackgroundResource(secondaryColorResource);
+        else
+            pokemonHolder.secondaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
+
+        // load sprite to card
+        Uri uri = pokemonCardList.get(position).spriteURI;
+        Context context = pokemonHolder.sprite.getContext();
+        Picasso.with(context).load(uri)
+                .into(pokemonHolder.sprite);
+
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return pokemonCardList.size();
+    }
+    
+}
+
+
