@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +34,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -145,6 +149,14 @@ public class MainActivity extends AppCompatActivity
         // specify an adapter (see also next example)
         //^adapter is specified in RequestPokemonCardsTask^
 
+        //filterSearch
+        /*
+        findViewById(R.id.filterSearch);
+
+        for(int index=0; index<((ViewGroup)viewGroup).getChildCount(); ++index) {
+            View nextChild = ((ViewGroup)viewGroup).getChildAt(index);
+        }*/
+
     }
 
     @Override
@@ -174,6 +186,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        boolean filterExclusive = true;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -184,33 +197,6 @@ public class MainActivity extends AppCompatActivity
 
         final SearchView searchViewAndroidActionBar = (SearchView) MenuItemCompat.getActionView(searchViewItem);
         searchViewAndroidActionBar.setMaxWidth( Integer.MAX_VALUE );
-
-
-        // search filter visibility indicators
-
-        // Search is onGoing
-        searchViewAndroidActionBar.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*HorizontalScrollView filterSearch = (HorizontalScrollView) findViewById(R.id.filterSearch);
-                filterSearch.setVisibility(View.VISIBLE);*/
-                Log.i("DBG","opened");
-
-            }
-        });
-
-        // Search has stopped
-        searchViewAndroidActionBar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(!b) {
-                    Log.i("DBG","stopped");
-                }
-            }
-        });
-
-
-
 
         searchViewAndroidActionBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -231,6 +217,59 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
 
+        });
+
+
+
+        // search filter visibility indicators
+        final HorizontalScrollView filter = (HorizontalScrollView) findViewById(R.id.filter);
+        final LinearLayout filterSearch = (LinearLayout)findViewById(R.id.filterSearch);
+        Log.i("DBG",Integer.toString(filterSearch.getChildCount()));
+        for(int index=0; index<filterSearch.getChildCount(); ++index) {
+
+            final Button child = (Button) filterSearch.getChildAt(index);
+            Log.i("DBG",(String)child.getText());
+            child.setTransformationMethod(null);
+            child.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CharSequence previousQuery = searchViewAndroidActionBar.getQuery();
+                    if(TextUtils.isEmpty(previousQuery))
+                        searchViewAndroidActionBar.setQuery(child.getText(),false);
+                    else {
+                        searchViewAndroidActionBar.setQuery(
+                                previousQuery + ", " + child.getText(), false);
+                    }
+
+                }
+            });
+        }
+        /*
+        // Search is onGoing
+        searchViewAndroidActionBar.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter.setVisibility(View.VISIBLE);
+
+            }
+        });*/
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        // Search has stopped
+        searchViewAndroidActionBar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b) {
+                    filter.setVisibility(View.GONE);
+                    fab.setVisibility(View.GONE);
+
+                }
+                else {
+                    filter.setVisibility(View.VISIBLE);
+                    fab.setVisibility(View.GONE);
+
+                }
+            }
         });
 
         return super.onCreateOptionsMenu(menu);

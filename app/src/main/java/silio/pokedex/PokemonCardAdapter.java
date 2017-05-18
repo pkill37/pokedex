@@ -125,9 +125,11 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
         Context context = pokemonHolder.sprite.getContext();
         if(pokemonName.equals("ditto"))
             Picasso.with(context).load(R.drawable.easter).into(pokemonHolder.sprite);
-        else
+        else {
+            Log.i("DB","getting:"+uri.toString());
             Picasso.with(context).load(uri)
-                   .into(pokemonHolder.sprite);
+                    .into(pokemonHolder.sprite);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

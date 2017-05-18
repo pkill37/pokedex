@@ -31,42 +31,112 @@
 
     <include layout="@layout/content_main" />
 
-<!--
+
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/filterSearch"
+        android:layout_height="40dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:gravity="center_horizontal"
-        >
+        android:scrollbars="none"
+        android:elevation="3dp"
+        android:background="?attr/colorPrimary"
+        android:visibility="gone"
+        android:id="@+id/filter">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:elevation="3dp">
+            android:layout_height="match_parent"
+            android:id="@+id/filterSearch">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fire, Flying" />
+                android:text="Bug"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fire, Flying" />
+                android:text="Dark"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fire, Flying" />
+                android:text="Dragon"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fire, Flying" />
+                android:text="Electric"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fighting"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fire"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Flying"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Ghost"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Grass"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Ground"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Ice"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Normal"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Poison"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Psychic"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Rock"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Steel"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Water"/>
 
         </LinearLayout>
+
     </HorizontalScrollView>
-    -->
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
