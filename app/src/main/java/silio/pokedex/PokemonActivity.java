@@ -79,10 +79,8 @@ public class PokemonActivity extends AppCompatActivity {
                 case 0:
                     return new PokemonDetailsFragment();
                 case 1:
-                    return new PokemonStatsFragment();
-                case 2:
                     return new PokemonMovesFragment();
-                case 3:
+                case 2:
                     return new PokemonPlacesFragment();
                 default:
                     return null;
@@ -91,7 +89,7 @@ public class PokemonActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
 
         @Override
@@ -100,10 +98,8 @@ public class PokemonActivity extends AppCompatActivity {
                 case 0:
                     return "DETAILS";
                 case 1:
-                    return "STATS";
-                case 2:
                     return "MOVES";
-                case 3:
+                case 2:
                     return "PLACES";
                 default:
                     return null;
