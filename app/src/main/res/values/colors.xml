@@ -9,7 +9,8 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
-    <!--pokemon type colors-->
+
+    <!-- pokemon type colors -->
     <color name="colorFairyType">#EA80FC</color>
     <color name="colorPsychicType">#BA68C8</color>
     <color name="colorPoisonType">#9575CD</color>
@@ -36,5 +37,8 @@
     <color name="colorSpDef">#66BB6A</color>
     <color name="colorSpeed">#EC407A</color>
 
-
+    <!-- move category colors -->
+    <color name="colorPhysicalMove">#b71c1c</color>
+    <color name="colorSpecialMove">#455a64</color>
+    <color name="colorStatusMove">#a1887f</color>
 </resources>

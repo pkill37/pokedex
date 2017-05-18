@@ -11,9 +11,9 @@ public class Move extends Object {
     private final Category category;
 
     public enum Category {
-        STATUS(R.color.colorAccent),
-        PHYSICAL(R.color.colorIcons),
-        SPECIAL(R.color.colorPrimary);
+        PHYSICAL(R.color.colorPhysicalMove),
+        SPECIAL(R.color.colorSpecialMove),
+        STATUS(R.color.colorStatusMove);
 
         private int color;
 

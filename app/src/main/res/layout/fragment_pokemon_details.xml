@@ -13,7 +13,70 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp">
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp">
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/pokemon_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Identity"
+                        style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"/>
+
+                    <TextView
+                        android:id="@+id/move_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@color/colorFireType"
+                        android:text="FIRE"
+                        style="@style/Badge" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/pokemon_sprite"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_marginEnd="20dp" />
+
+                    <TextView
+                        android:id="@+id/pokemon_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp">
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,6 +86,13 @@
                 android:paddingTop="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Base Stats"
+                    android:paddingBottom="20dp"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,218 +306,87 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp">
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp">
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Evolution Chain"
+                    android:paddingBottom="20dp"
+                    style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/labelHp"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
-                        android:layout_marginEnd="20dp"
-                        android:text="HP" />
-
-                    <ProgressBar
-                        android:id="@+id/barHp"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
+                        android:orientation="vertical"
+                        android:layout_marginEnd="20dp">
 
-                    <TextView
-                        android:id="@+id/valueHp"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
+                        <ImageView
+                            android:id="@+id/pokemon_evolution1"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Charmander" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/labelAttack"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
-                        android:layout_marginEnd="20dp"
-                        android:text="Attack" />
-
-                    <ProgressBar
-                        android:id="@+id/barAttack"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
-
-                    <TextView
-                        android:id="@+id/valueAttack"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
-
-                    <TextView
-                        android:id="@+id/labelDefense"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
+                        android:orientation="vertical"
                         android:layout_marginEnd="20dp"
-                        android:text="Defense" />
+                        style="">
 
-                    <ProgressBar
-                        android:id="@+id/barDefense"
+                        <ImageView
+                            android:id="@+id/pokemon_evolution2"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Charmeleon" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
+                        android:orientation="vertical"
+                        android:layout_marginEnd="20dp">
 
-                    <TextView
-                        android:id="@+id/valueDefense"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
+                        <ImageView
+                            android:id="@+id/pokemon_evolution3"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_weight="1" />
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Charizard" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/labelSpecialAttack"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
-                        android:layout_marginEnd="20dp"
-                        android:text="Special Attack" />
-
-                    <ProgressBar
-                        android:id="@+id/barSpecialAttack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
-
-                    <TextView
-                        android:id="@+id/valueSpecialAttack"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
-
-                    <TextView
-                        android:id="@+id/labelSpecialDefense"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
-                        android:layout_marginEnd="20dp"
-                        android:text="Special Defense" />
-
-                    <ProgressBar
-                        android:id="@+id/barSpecialDefense"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
-
-                    <TextView
-                        android:id="@+id/valueSpecialDefense"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp">
-
-                    <TextView
-                        android:id="@+id/labelSpeed"
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatLabel"
-                        android:layout_marginEnd="20dp"
-                        android:text="Speed" />
-
-                    <ProgressBar
-                        android:id="@+id/barSpeed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/StatBar"
-                        android:progress="35" />
-
-                    <TextView
-                        android:id="@+id/valueSpeed"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        style="@style/StatValue"
-                        android:layout_marginStart="20dp"
-                        android:text="255" />
 
                 </LinearLayout>
 

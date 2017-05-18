@@ -178,9 +178,9 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
 
         final MenuItem searchViewItem = menu.findItem(R.id.action_search);
-        if (searchViewItem != null) {
+
+        if (searchViewItem != null)
             tintMenuIcon(MainActivity.this, searchViewItem, android.R.color.white);
-        }
 
         final SearchView searchViewAndroidActionBar = (SearchView) MenuItemCompat.getActionView(searchViewItem);
         searchViewAndroidActionBar.setMaxWidth( Integer.MAX_VALUE );

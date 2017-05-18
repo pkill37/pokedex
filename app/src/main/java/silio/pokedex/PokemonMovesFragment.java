@@ -23,11 +23,11 @@ public class PokemonMovesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move("Fire Blast", "Powerful aksjdkajsdkjahskjdh", 16, 85, 70, 5, Type.FIGHTING, Move.Category.SPECIAL));
-        moves.add(new Move("Fire Blast 2", "SUPER SADASPowerful aksjdkajsdkjahskjdh", 36, 85, 100, 5, Type.FIGHTING, Move.Category.SPECIAL));
-        moves.add(new Move("Fire Blast 3", "MEAGK JKKJHJHPowerful aksjdkajsdkjahskjdh", 40, 100, 95, 5, Type.FIGHTING, Move.Category.SPECIAL));
-        moves.add(new Move("Fire Blast 4", "MEAGK JKKJHJHPowerful aksjdkajsdkjahskjdh", 70, 60, 100, 5, Type.FIGHTING, Move.Category.SPECIAL));
-        moves.add(new Move("Fire Blast 5", "MEAGK JKKJHJHPowerful aksjdkajsdkjahskjdh", 76, 85, 80, 5, Type.FIGHTING, Move.Category.SPECIAL));
+        moves.add(new Move("Fire Blast", "", 80, 85, 70, 5, Type.FIRE, Move.Category.SPECIAL));
+        moves.add(new Move("Wing Attack", "", 32, 60, 100, 35, Type.FLYING, Move.Category.PHYSICAL));
+        moves.add(new Move("Dragon Claw", "", 46, 80, 100, 15, Type.DRAGON, Move.Category.PHYSICAL));
+        moves.add(new Move("Growl", "", 8, 0, 100, 35, Type.NORMAL, Move.Category.STATUS));
+        moves.add(new Move("Razor Leaf", "", 8, 80, 100, 15, Type.GRASS, Move.Category.SPECIAL));
 
         PokemonMovesAdapter adapter = new PokemonMovesAdapter(moves);
         recyclerView.setAdapter(adapter);

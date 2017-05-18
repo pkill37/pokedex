@@ -2,9 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="silio.pokedex.PokemonActivity">
+
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_favorite"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/ic_star_border_black_24dp"
+        android:title="Favorite" />
+
+    <item
+        android:id="@+id/action_catch"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/ic_caught_black_24dp"
+        android:title="See" />
+
+
+
 </menu>
