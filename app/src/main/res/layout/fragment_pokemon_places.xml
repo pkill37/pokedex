@@ -1,19 +1,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="silio.pokedex.PokemonActivity$PokemonPlacesFragment">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/worldmap"
-        android:scaleType="fitXY"
-        android:layout_margin="0dp" />
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/world_map"
+                        android:layout_margin="0dp" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

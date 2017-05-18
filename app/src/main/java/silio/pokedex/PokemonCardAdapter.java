@@ -22,9 +22,11 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter.PokemonCardViewHolder> {
 
@@ -80,6 +82,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
                     context.startActivity(new Intent(context, PokemonActivity.class));
                 }
             });
+
         }
     }
 
@@ -147,18 +150,27 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
 
                 if (constraint != null) {
                     if (originalList != null & originalList.size() > 0) {
+                        String[] searchSubstringArray =  constraint.toString().toLowerCase().trim().split("[\\s,;]+");
                         for (final PokemonCard g : originalList) {
-                            String searchSubstring = constraint.toString().toLowerCase().trim();
-                            boolean matchesSecondaryType = false;
-                            
-                            if(g.getSecondaryType() != null)
-                                matchesSecondaryType = g.getSecondaryType().toLowerCase().contains(searchSubstring);
+                            boolean matchesFullSearch = true;
 
-                            if (g.getPrimaryType().toLowerCase().contains(searchSubstring) ||
-                                matchesSecondaryType ||
-                                g.getPokemonName().toLowerCase().contains(searchSubstring) ||
-                                Integer.toString(g.getId()).contains(searchSubstring))
+                            for(String searchSubstring : searchSubstringArray) {
 
+                                boolean matchesSecondaryType = false;
+
+                                if (g.getSecondaryType() != null)
+                                    matchesSecondaryType = g.getSecondaryType().toLowerCase().contains(searchSubstring);
+
+                                boolean matchesSubstring =
+                                        g.getPrimaryType().toLowerCase().contains(searchSubstring) ||
+                                        matchesSecondaryType ||
+                                        g.getPokemonName().toLowerCase().contains(searchSubstring) ||
+                                        Integer.toString(g.getId()).contains(searchSubstring);
+
+                                matchesFullSearch = matchesFullSearch && matchesSubstring;
+                            }
+
+                            if(matchesFullSearch)
                                 results.add(g);
                         }
                     }

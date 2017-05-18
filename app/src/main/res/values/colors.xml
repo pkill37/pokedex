@@ -28,6 +28,13 @@
     <color name="colorRockType">#E0E0E0</color>
     <color name="colorNormalType">#FFE0B2</color>
     <color name="colorGroundType">#A1887F</color>
+    <!--pokemon stat colors-->
+    <color name="colorHP">#EF5350</color>
+    <color name="colorAtk">#FFA726</color>
+    <color name="colorDef">#FFEB3B</color>
+    <color name="colorSpAtk">#29B6F6</color>
+    <color name="colorSpDef">#66BB6A</color>
+    <color name="colorSpeed">#EC407A</color>
 
 
 </resources>

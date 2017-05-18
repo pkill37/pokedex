@@ -9,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="3dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,15 +21,63 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/filterSearch"
+        android:gravity="center_horizontal"
+        >-->
+
     <include layout="@layout/content_main" />
 
-   <android.support.design.widget.FloatingActionButton
+<!--
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/filterSearch"
+        android:gravity="center_horizontal"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:elevation="3dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fire, Flying" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fire, Flying" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fire, Flying" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Fire, Flying" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    -->
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp"
         android:tint="@color/colorIcons"/>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

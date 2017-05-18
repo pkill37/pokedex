@@ -1,6 +1,7 @@
 package silio.pokedex;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.HorizontalScrollView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -122,7 +125,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int visibility = (mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) ? View.VISIBLE : View.GONE;
-                fab.setVisibility(visibility);
+                if (mAdapter.getItemCount() != 0)
+                    fab.setVisibility(visibility);
             }
         });
 
@@ -180,6 +184,33 @@ public class MainActivity extends AppCompatActivity
 
         final SearchView searchViewAndroidActionBar = (SearchView) MenuItemCompat.getActionView(searchViewItem);
         searchViewAndroidActionBar.setMaxWidth( Integer.MAX_VALUE );
+
+
+        // search filter visibility indicators
+
+        // Search is onGoing
+        searchViewAndroidActionBar.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*HorizontalScrollView filterSearch = (HorizontalScrollView) findViewById(R.id.filterSearch);
+                filterSearch.setVisibility(View.VISIBLE);*/
+                Log.i("DBG","opened");
+
+            }
+        });
+
+        // Search has stopped
+        searchViewAndroidActionBar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b) {
+                    Log.i("DBG","stopped");
+                }
+            }
+        });
+
+
+
 
         searchViewAndroidActionBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -241,7 +272,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+
+
+        } /*else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -251,7 +287,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
