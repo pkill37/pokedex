@@ -23,11 +23,11 @@ public class PokemonMovesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move("Fire Blast", "", 80, 85, 70, 5, Type.FIRE, Move.Category.SPECIAL));
-        moves.add(new Move("Wing Attack", "", 32, 60, 100, 35, Type.FLYING, Move.Category.PHYSICAL));
-        moves.add(new Move("Dragon Claw", "", 46, 80, 100, 15, Type.DRAGON, Move.Category.PHYSICAL));
-        moves.add(new Move("Growl", "", 8, 0, 100, 35, Type.NORMAL, Move.Category.STATUS));
-        moves.add(new Move("Razor Leaf", "", 8, 80, 100, 15, Type.GRASS, Move.Category.SPECIAL));
+        moves.add(new Move("Fire Blast", Integer.toString(89), 85, 70, 5, Type.valueOf("fire"), Move.Category.valueOf("special")));
+        moves.add(new Move("Wing Attack", Integer.toString(16), 60, 100, 35, Type.valueOf("flying"), Move.Category.valueOf("physical")));
+        moves.add(new Move("Dragon Claw", Integer.toString(32), 80, 100, 15, Type.valueOf("dragon"), Move.Category.valueOf("physical")));
+        moves.add(new Move("Growl", Integer.toString(46), 0, 100, 35, Type.valueOf("normal"), Move.Category.valueOf("special")));
+        moves.add(new Move("Razor Leaf", Integer.toString(8), 80, 100, 15, Type.valueOf("grass"), Move.Category.valueOf("special")));
 
         PokemonMovesAdapter adapter = new PokemonMovesAdapter(moves);
         recyclerView.setAdapter(adapter);

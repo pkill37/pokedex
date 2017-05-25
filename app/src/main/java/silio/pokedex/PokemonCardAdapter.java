@@ -37,34 +37,6 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     private List<PokemonCard> pokemonCardList;
     private List<PokemonCard> originalList;
 
-    private static Set<String> caughtNameSet = new HashSet<>();
-
-
-    private static final HashMap<String, Integer> typeColor;
-    static
-    {
-        typeColor = new HashMap<>();
-        typeColor.put("grass", R.color.colorGrassType);
-        typeColor.put("fire", R.color.colorFireType);
-        typeColor.put("water", R.color.colorWaterType);
-        typeColor.put("bug", R.color.colorBugType);
-        typeColor.put("normal", R.color.colorNormalType);
-        typeColor.put("poison", R.color.colorPoisonType);
-        typeColor.put("electric", R.color.colorElectricType);
-        typeColor.put("flying", R.color.colorFlyingType);
-        typeColor.put("ground", R.color.colorGroundType);
-        typeColor.put("fairy", R.color.colorFairyType);
-        typeColor.put("fighting", R.color.colorFightingType);
-        typeColor.put("psychic", R.color.colorPsychicType);
-        typeColor.put("rock", R.color.colorRockType);
-        typeColor.put("ghost", R.color.colorGhostType);
-        typeColor.put("steel", R.color.colorSteelType);
-        typeColor.put("ice", R.color.colorIceType);
-        typeColor.put("dark", R.color.colorDarkType);
-        typeColor.put("dragon", R.color.colorDragonType);
-    }
-
-
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -109,33 +81,28 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     // card info relative to position is treated here
     @Override
     public void onBindViewHolder(PokemonCardViewHolder pokemonHolder, int position) {
+        String name = pokemonCardList.get(position).getName();
+        pokemonHolder.pokemonName.setText(name.substring(0,1).toUpperCase() + name.substring(1));
 
+        Type[] types = pokemonCardList.get(position).getTypes();
 
-        String pokemonName = pokemonCardList.get(position).getPokemonName();
-        String pokemonNameCapitalized = pokemonName.substring(0,1).toUpperCase() + pokemonName.substring(1);
-        pokemonHolder.pokemonName.setText(pokemonNameCapitalized);
+        String primaryType = types[0].type();
+        Integer primaryColorResource = Type.valueOf(primaryType).color();
+        pokemonHolder.primaryTypeColor.setBackgroundResource(primaryColorResource);
 
-        String primaryType = pokemonCardList.get(position).getPrimaryType();
-        Log.i("TG",primaryType);
-        pokemonHolder.primaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
-
-        Integer secondaryColorResource = typeColor.get(pokemonCardList.get(position).getSecondaryType());
-
-        if(secondaryColorResource != null)
+        if (types[1] != null) {
+            String secondaryType = types[1].type();
+            Integer secondaryColorResource = Type.valueOf(secondaryType).color();
             pokemonHolder.secondaryTypeColor.setBackgroundResource(secondaryColorResource);
-        else
-            pokemonHolder.secondaryTypeColor.setBackgroundResource(typeColor.get(primaryType));
-
-        // load sprite to card
-        Uri uri = pokemonCardList.get(position).getSpriteURI();
-        Context context = pokemonHolder.sprite.getContext();
-        if(pokemonName.equals("ditto"))
-            Picasso.with(context).load(R.drawable.easter).into(pokemonHolder.sprite);
-        else {
-            Log.i("DB","getting:"+uri.toString());
-            Picasso.with(context).load(uri)
-                    .into(pokemonHolder.sprite);
+        } else {
+            pokemonHolder.secondaryTypeColor.setBackgroundResource(primaryColorResource);
         }
+
+        Uri uri = pokemonCardList.get(position).getSprite();
+        Context context = pokemonHolder.sprite.getContext();
+
+        Log.i("DB", "getting:" + uri.toString());
+        Picasso.with(context).load(uri).into(pokemonHolder.sprite);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -159,6 +126,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
                 if (constraint != null) {
                     if (originalList != null & originalList.size() > 0) {
                         String[] searchSubstringArray =  constraint.toString().toLowerCase().trim().split("[\\s,;]+");
+
                         for (final PokemonCard g : originalList) {
                             boolean matchesFullSearch = true;
 
@@ -166,13 +134,13 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
 
                                 boolean matchesSecondaryType = false;
 
-                                if (g.getSecondaryType() != null)
-                                    matchesSecondaryType = g.getSecondaryType().toLowerCase().contains(searchSubstring);
+                                if (g.getTypes()[1] != null)
+                                    matchesSecondaryType = g.getTypes()[1].type().toLowerCase().contains(searchSubstring);
 
                                 boolean matchesSubstring =
-                                        g.getPrimaryType().toLowerCase().contains(searchSubstring) ||
+                                        g.getTypes()[0].type().toLowerCase().contains(searchSubstring) ||
                                         matchesSecondaryType ||
-                                        g.getPokemonName().toLowerCase().contains(searchSubstring) ||
+                                        g.getName().toLowerCase().contains(searchSubstring) ||
                                         Integer.toString(g.getId()).contains(searchSubstring);
 
                                 matchesFullSearch = matchesFullSearch && matchesSubstring;
@@ -207,19 +175,17 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             for (final PokemonCard g : originalList) {
                 boolean match = false;
                 for(String searchSubstring : caught) {
-                    if(g.getPokemonName().toLowerCase().contains(searchSubstring)) {
+                    if(g.getName().toLowerCase().contains(searchSubstring)) {
                         newList.add(g);
                         break;
                     }
                 }
             }
         }
+
         pokemonCardList = newList;
         notifyDataSetChanged();
     }
-
-
-
 
 }
 

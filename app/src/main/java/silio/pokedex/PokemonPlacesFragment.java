@@ -17,8 +17,8 @@ public class PokemonPlacesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_pokemon_places, container, false);
-        SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)rootView.findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.resource(R.drawable.kanto_map_3_adjusted));
+        // SubsamplingScaleImageView imageView = (SubsamplingScaleImageView) rootView.findViewById(R.id.imageView);
+        // imageView.setImage(ImageSource.resource(R.drawable.kanto_map_3_adjusted));
         return rootView;
     }
 }

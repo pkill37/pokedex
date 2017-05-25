@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 public class PokemonDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,22 +64,36 @@ public class PokemonDetailsFragment extends Fragment {
         TextView textName = (TextView) rootView.findViewById(R.id.pokemon_name);
         textName.setText("Charizard");
 
+        TextView textType1 = (TextView) rootView.findViewById(R.id.pokemon_type1);
+        textType1.setBackgroundResource(Type.valueOf("fire").color());
+        textType1.setText("Fire");
+
+        // TODO: update visibility check
+        if (true) {
+            TextView textType2 = (TextView) rootView.findViewById(R.id.pokemon_type2);
+            textType2.setVisibility(View.VISIBLE);
+            textType2.setBackgroundResource(Type.valueOf("flying").color());
+            textType2.setText("Flying");
+        }
+
         TextView textDescription = (TextView) rootView.findViewById(R.id.pokemon_description);
         textDescription.setText("Charizard flies around the sky in search of powerful opponents. It breathes fire of such great heat that it melts anything.");
 
-        ImageView ivEvolution1 = (ImageView) rootView.findViewById(R.id.pokemon_evolution1);
-        Uri uriEvolution1 = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png");
-        Picasso.with(getContext()).load(uriEvolution1).fit().into(ivEvolution1);
+        int[][] ids = new int[][]{
+                { R.id.pokemon_evolution1_name, R.id.pokemon_evolution1 },
+                { R.id.pokemon_evolution2_name, R.id.pokemon_evolution2 },
+                { R.id.pokemon_evolution3_name, R.id.pokemon_evolution3 }
+        };
 
-        ImageView ivEvolution2 = (ImageView) rootView.findViewById(R.id.pokemon_evolution2);
-        Uri uriEvolution2 = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png");
-        Picasso.with(getContext()).load(uriEvolution2).fit().into(ivEvolution2);
-
-        ImageView ivEvolution3 = (ImageView) rootView.findViewById(R.id.pokemon_evolution3);
-        Uri uriEvolution3 = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png");
-        Picasso.with(getContext()).load(uriEvolution3).fit().into(ivEvolution3);
-
-
+        for (int i = 0; i < 3; i++) {
+            TextView textEvolution = (TextView) rootView.findViewById(ids[i][0]);
+            textEvolution.setVisibility(View.VISIBLE);
+            textEvolution.setText("Charmander");
+            ImageView ivEvolution = (ImageView) rootView.findViewById(ids[i][1]);
+            ivEvolution.setVisibility(View.VISIBLE);
+            Uri uriEvolution = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + Integer.toString(4+i) + ".png");
+            Picasso.with(getContext()).load(uriEvolution).fit().into(ivEvolution);
+        }
 
         return rootView;
     }

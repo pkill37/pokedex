@@ -2,8 +2,7 @@ package silio.pokedex;
 
 public class Move extends Object {
     private final String name;
-    private final String description;
-    private final int level;
+    private final String method;
     private final int power;
     private final int accuracy;
     private final int pp;
@@ -11,25 +10,36 @@ public class Move extends Object {
     private final Category category;
 
     public enum Category {
-        PHYSICAL(R.color.colorPhysicalMove),
-        SPECIAL(R.color.colorSpecialMove),
-        STATUS(R.color.colorStatusMove);
+        physical("physical"),
+        special("special"),
+        status("status");
 
+        private String category;
         private int color;
 
-        Category(int color) {
-            this.color = color;
+        Category(String category) {
+            switch (category) {
+                case "physical":
+                    this.color = R.color.colorPhysicalMove;
+                case "special":
+                    this.color = R.color.colorSpecialMove;
+                case "status":
+                    this.color = R.color.colorStatusMove;
+            }
         }
 
         public int color() {
             return color;
         }
+
+        public String category() {
+            return category;
+        }
     }
 
-    public Move(String name, String description, int level, int power, int accuracy, int pp, Type type, Category category) {
+    public Move(String name, String method, int power, int accuracy, int pp, Type type, Category category) {
         this.name = name;
-        this.description = description;
-        this.level = level;
+        this.method = method;
         this.power = power;
         this.accuracy = accuracy;
         this.pp = pp;
@@ -41,12 +51,8 @@ public class Move extends Object {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getLevel() {
-        return level;
+    public String getMethod() {
+        return method;
     }
 
     public int getPower() {

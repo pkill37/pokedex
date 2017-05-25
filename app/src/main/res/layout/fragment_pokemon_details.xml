@@ -38,7 +38,17 @@
                         style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"/>
 
                     <TextView
-                        android:id="@+id/move_type"
+                        android:id="@+id/pokemon_type1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:background="@color/colorFireType"
+                        android:text="FIRE"
+                        style="@style/Badge" />
+
+                    <TextView
+                        android:id="@+id/pokemon_type2"
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -338,10 +348,13 @@
 
                         <ImageView
                             android:id="@+id/pokemon_evolution1"
+                            android:visibility="invisible"
                             android:layout_width="80dp"
                             android:layout_height="80dp" />
 
                         <TextView
+                            android:id="@+id/pokemon_evolution1_name"
+                            android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Charmander" />
@@ -357,11 +370,14 @@
 
                         <ImageView
                             android:id="@+id/pokemon_evolution2"
+                            android:visibility="invisible"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/pokemon_evolution2_name"
+                            android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Charmeleon" />
@@ -376,17 +392,19 @@
 
                         <ImageView
                             android:id="@+id/pokemon_evolution3"
+                            android:visibility="invisible"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/pokemon_evolution3_name"
+                            android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Charizard" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 

@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#ff0000"
-                        android:text="FIRE"
+                        android:text="SPECIAL"
                         style="@style/Badge" />
 
                 </LinearLayout>

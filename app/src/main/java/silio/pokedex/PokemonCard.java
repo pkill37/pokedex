@@ -4,59 +4,27 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 public class PokemonCard {
-    private String pokemonName;
     private int id;
-    private String primaryType;
-    private String secondaryType;
-    private Uri spriteURI;
+    private String name;
+    private String description;
+    private Type[] types;
+    private Uri sprite;
+    private List<Move> moves;
+    private Map<Integer, String> evolutions;
 
-    public PokemonCard() {
-    }
+    public PokemonCard(int id, String name, String description, Type[] types, Uri sprite, List<Move> moves, Map<Integer, String> evolutions) {
 
-    public PokemonCard(int id, String name, String primaryType) {
         this.id = id;
-        this.pokemonName = name;
-        this.primaryType = primaryType;
-    }
-
-    public PokemonCard(int id, String name, String primaryType, Uri spriteURI) {
-        this.id = id;
-        this.pokemonName = name;
-        this.primaryType = primaryType;
-        this.spriteURI = spriteURI;
-    }
-
-    public PokemonCard(int id, String name, String primaryType, String secondaryType) {
-        this.pokemonName = name;
-        this.id = id;
-        this.primaryType = primaryType;
-        this.secondaryType = secondaryType;
-    }
-
-    public PokemonCard(int id, String name, String primaryType, String secondaryType, Uri spriteURI) {
-        this.pokemonName = name;
-        this.id = id;
-        this.primaryType = primaryType;
-        this.secondaryType = secondaryType;
-        this.spriteURI = spriteURI;
-    }
-
-    public void setSpriteURI(Uri spriteURI) {
-        this.spriteURI = spriteURI;
-    }
-
-    public Uri getSpriteURI() {
-        return spriteURI;
-    }
-
-    public String getPokemonName() {
-        return pokemonName;
-    }
-
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
+        this.name = name;
+        this.description = description;
+        this.types = types;
+        this.sprite = sprite;
+        this.moves = moves;
+        this.evolutions = evolutions;
     }
 
     public int getId() {
@@ -67,19 +35,51 @@ public class PokemonCard {
         this.id = id;
     }
 
-    public String getPrimaryType() {
-        return primaryType;
+    public String getName() {
+        return name;
     }
 
-    public void setPrimaryType(String primaryType) {
-        this.primaryType = primaryType;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSecondaryType() {
-        return secondaryType;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSecondaryType(String secondaryType) {
-        this.secondaryType = secondaryType;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Type[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(Type[] types) {
+        this.types = types;
+    }
+
+    public Uri getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Uri sprite) {
+        this.sprite = sprite;
+    }
+
+    public List<Move> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(List<Move> moves) {
+        this.moves = moves;
+    }
+
+    public Map<Integer, String> getEvolutions() {
+        return evolutions;
+    }
+
+    public void setEvolutions(Map<Integer, String> evolutions) {
+        this.evolutions = evolutions;
     }
 }

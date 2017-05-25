@@ -38,7 +38,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity
@@ -339,12 +341,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    // gets card info from @assets/pokemon_cards.json
+    // gets card info from @assets/pokedex.json
     public String loadJSONFromAsset() {
         String json = null;
         try {
 
-            InputStream is = getAssets().open("pokemon_cards.json");
+            InputStream is = getAssets().open("pokedex.json");
 
             int size = is.available();
 
@@ -378,24 +380,52 @@ public class MainActivity extends AppCompatActivity
 
                 for (int i=0; i< pokemonCardArray.length(); i++) {
                     JSONObject pokemonCard = (JSONObject) pokemonCardArray.get(i);
+
                     int id = pokemonCard.getInt("id");
                     String name = pokemonCard.getString("name");
-                    JSONArray types = pokemonCard.getJSONArray("types");
-                    String primaryType = types.getString(0);
-                    String secondaryType;
-                    Uri spriteURI = Uri.parse(pokemonCard.getString("spriteURI"));
-                    if(types.length() > 1 ) {
-                        secondaryType = types.getString(1);
-                        pokemonCardList.add( new PokemonCard(id, name,  secondaryType, primaryType, spriteURI));
-                    }
-                    else
-                        pokemonCardList.add( new PokemonCard(id, name, primaryType, spriteURI));
-                }
+                    String description = pokemonCard.getString("description");
+                    Uri sprite = Uri.parse(pokemonCard.getString("sprite"));
 
+                    JSONArray movesJson = pokemonCard.getJSONArray("moves");
+                    List<Move> moves = new ArrayList<>();
+                    for (int j = 0; j < movesJson.length(); j++) {
+                        JSONObject moveJson = (JSONObject) movesJson.get(j);
+                        moves.add(new Move(
+                                moveJson.getString("name"),
+                                moveJson.getString("method"),
+                                Integer.valueOf(moveJson.getString("power").equals("null") ? "0" : moveJson.getString("power")),
+                                Integer.valueOf(moveJson.getString("accuracy").equals("null") ? "0": moveJson.getString("accuracy")),
+                                Integer.valueOf(moveJson.getString("pp").equals("null") ? "0" : moveJson.getString("pp")),
+                                Type.valueOf(moveJson.getString("type")),
+                                Move.Category.valueOf(moveJson.getString("category"))
+                        ));
+                    }
+
+                    JSONArray evolutionsJson = pokemonCard.getJSONArray("evolutions");
+                    Map<Integer, String> evolutions = new HashMap<>();
+                    for (int k = 0; k < evolutionsJson.length(); k++) {
+                        JSONObject evolutionJson = (JSONObject) evolutionsJson.get(k);
+                        evolutions.put(
+                                Integer.valueOf(evolutionJson.getString("id")),
+                                evolutionJson.getString("name")
+                        );
+                    }
+
+                    JSONArray typesJson = pokemonCard.getJSONArray("types");
+                    Type[] types;
+                    if(typesJson.length() > 1) {
+                        types = new Type[]{ Type.valueOf(typesJson.getString(0)), Type.valueOf(typesJson.getString(1)) };
+                    } else {
+                        types = new Type[]{ Type.valueOf(typesJson.getString(0)), null };
+                    }
+
+                    pokemonCardList.add(new PokemonCard(id, name, description, types, sprite, moves, evolutions));
+                }
             }
-            catch (JSONException e){
+            catch (JSONException e) {
                 e.printStackTrace();
             }
+
             return pokemonCardList;
         }
 
