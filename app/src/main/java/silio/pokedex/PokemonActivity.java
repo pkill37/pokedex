@@ -1,5 +1,7 @@
 package silio.pokedex;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,14 +13,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PokemonActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private boolean star_checked = false;
+    private String pokemonName = "charizard";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,16 @@ public class PokemonActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_pokemon_detail, menu);
+
+        Set<String> caught = new HashSet<>();
+        SharedPreferences settings = getSharedPreferences("pokedex", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        caught =  settings.getStringSet("caught", new HashSet<String>());
+
+        if(caught.contains(pokemonName))
+            star_checked = true;
+
+        menu.findItem(R.id.action_favorite).setIcon(star_checked?R.drawable.ic_star_24dp:R.drawable.ic_star_border_24dp);
         return true;
     }
 
@@ -55,16 +78,54 @@ public class PokemonActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*
-        int id = item.getItemId();
 
+        int id = item.getItemId();
+        /*
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_catch || id == R.id.action_favorite) {
             return false;
         }
 
+
         return super.onOptionsItemSelected(item);
         */
+
+        if (id == R.id.action_favorite){
+            star_checked=!star_checked;
+            invalidateOptionsMenu();
+            Log.i("DBG","in fav");
+            Set<String> caught;
+
+
+
+            if(star_checked){
+
+                SharedPreferences settings = getSharedPreferences("pokedex", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+
+                caught =  settings.getStringSet("caught", new HashSet<String>());
+                caught.add(pokemonName);
+                caught.add("charmeleon");
+                editor.remove("caught");
+                editor.apply();
+                editor.putStringSet("caught",caught);
+                editor.apply();
+
+            }
+            else{
+                SharedPreferences settings = getSharedPreferences("pokedex", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                caught =  settings.getStringSet("caught", new HashSet<String>());
+                caught.remove(pokemonName);
+                editor.remove("caught");
+                editor.apply();
+                editor.putStringSet("caught",caught);
+                editor.apply();
+
+            }
+            return true;
+
+        }
         return false;
     }
 

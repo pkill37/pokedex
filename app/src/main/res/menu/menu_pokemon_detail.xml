@@ -3,19 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="silio.pokedex.PokemonActivity">
 
-
-    <item
-        android:id="@+id/action_favorite"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:icon="@drawable/ic_star_border_black_24dp"
-        android:title="Favorite" />
-
-    <item
-        android:id="@+id/action_catch"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:icon="@drawable/ic_caught_black_24dp"
-        android:title="See" />
-
-
+    <group
+        android:id="@+id/checkable_group"
+        android:checkableBehavior="all">
+        <!-- Notice how these items inherit from the group. -->
+        <item
+            android:id="@+id/action_favorite"
+            app:showAsAction="always"
+            android:checkable="true"
+            android:icon="@drawable/ic_star_border_24dp"
+            android:title="Favorite" />
+    </group>
 
 </menu>

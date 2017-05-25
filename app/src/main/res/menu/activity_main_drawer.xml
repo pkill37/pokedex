@@ -3,14 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Pokémon" />
 
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_explore_black_24dp"
-            android:title="Coming soon" />
+            android:id="@+id/nav_caught"
+            android:icon="@drawable/ic_star_24dp"
+            android:title="Favorite" />
         <!--
         <item
             android:id="@+id/nav_slideshow"
@@ -23,7 +23,7 @@
             -->
     </group>
     <!--
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/nav_share"

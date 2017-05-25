@@ -9,4 +9,30 @@
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search" />
 
+
+    <item
+        android:id="@+id/action_filter"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_filter_list_24dp"
+        android:title="Filter" />
+
+
+    <!--
+    <item
+        android:id="@+id/action_sort"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/sort_button_with_three_lines"
+        android:title="Sort" />-->
+
+
+
+
+
+
+
+
+
+
+
+
 </menu>

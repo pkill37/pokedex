@@ -1,29 +1,21 @@
 package silio.pokedex;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -37,15 +29,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import android.widget.ToggleButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,12 +40,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.sargunvohra.lib.pokekotlin.client.PokeApi;
-import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
-import me.sargunvohra.lib.pokekotlin.model.Pokemon;
-import me.sargunvohra.lib.pokekotlin.model.PokemonSpecies;
-import me.sargunvohra.lib.pokekotlin.model.PokemonType;
-
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -69,6 +47,12 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private PokemonCardAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
+    private SearchView mSearchView;
+    private MenuItem mSearchItem;
+    private LinearLayout filterSearch;
+    private static boolean filterFlag = false;
+    private static boolean searchFlag = false;
+
     // could be put in a sort of Utils class, that'd be nice
     private final String baseURL = "http://pokeapi.co/api/v2/";
 
@@ -93,7 +77,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -106,19 +89,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        // true for now, don't feel like using it tho
-        //mRecyclerView.setHasFixedSize(true);
-
-        // "good" enough way of solving portrait orientation problems
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             mLayoutManager = new GridLayoutManager(this, 2);
         else
             mLayoutManager = new GridLayoutManager(this, 3);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -134,28 +110,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        filterSearch = (LinearLayout)findViewById(R.id.filterSearch);
         // Get Pokémons
 
         try {
             new RequestPokemonCardsTask().execute();
         } catch(Exception e) {
         }
-
-        //testPokemon.add(new PokemonCard(1,"Charmander","Fire"));
-        //testPokemon.add(new PokemonCard(2,"Charizard","Fire","Flying"));
-        // don't wanna jinx it hahaha
-        //testPokemon.add(new PokemonCard(3,"Jynx","Ice","Psychic"));
-
-        // specify an adapter (see also next example)
-        //^adapter is specified in RequestPokemonCardsTask^
-
-        //filterSearch
-        /*
-        findViewById(R.id.filterSearch);
-
-        for(int index=0; index<((ViewGroup)viewGroup).getChildCount(); ++index) {
-            View nextChild = ((ViewGroup)viewGroup).getChildAt(index);
-        }*/
 
     }
 
@@ -181,16 +142,15 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
     // ActionBar Stuff
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        boolean filterExclusive = true;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
         final MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        mSearchItem = searchViewItem;
+        final MenuItem searchFilterItem = menu.findItem(R.id.action_filter);
 
         if (searchViewItem != null)
             tintMenuIcon(MainActivity.this, searchViewItem, android.R.color.white);
@@ -211,66 +171,98 @@ public class MainActivity extends AppCompatActivity
 
                 if ( TextUtils.isEmpty ( newText ) ) {
                     mAdapter.getFilter().filter("");
+                    //Don't show keyboard on clear
+                    //Not proud of how it's done
+                    if(filterFlag && !searchFlag) {
+                        mSearchView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSearchView.clearFocus();
+                            }
+                        });
+                        for(int index=0; index<filterSearch.getChildCount(); ++index) {
+                            ToggleButton child = (ToggleButton) filterSearch.getChildAt(index);
+                            child.setChecked(false);
+                        }
+                    }
+
                 } else {
                     mAdapter.getFilter().filter(newText);
+
                 }
-                return true;
+                return false;
             }
 
         });
-
-
+        mSearchView = searchViewAndroidActionBar;
 
         // search filter visibility indicators
+        // filter scroller
         final HorizontalScrollView filter = (HorizontalScrollView) findViewById(R.id.filter);
-        final LinearLayout filterSearch = (LinearLayout)findViewById(R.id.filterSearch);
-        Log.i("DBG",Integer.toString(filterSearch.getChildCount()));
+
         for(int index=0; index<filterSearch.getChildCount(); ++index) {
 
-            final Button child = (Button) filterSearch.getChildAt(index);
-            Log.i("DBG",(String)child.getText());
+            final ToggleButton child = (ToggleButton) filterSearch.getChildAt(index);
             child.setTransformationMethod(null);
             child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CharSequence previousQuery = searchViewAndroidActionBar.getQuery();
-                    if(TextUtils.isEmpty(previousQuery))
-                        searchViewAndroidActionBar.setQuery(child.getText(),false);
-                    else {
-                        searchViewAndroidActionBar.setQuery(
-                                previousQuery + ", " + child.getText(), false);
-                    }
 
+                    if(child.isChecked()){
+                        CharSequence previousQuery = searchViewAndroidActionBar.getQuery();
+                        if(TextUtils.isEmpty(previousQuery))
+                            searchViewAndroidActionBar.setQuery(child.getText(),false);
+                        else {
+                            searchViewAndroidActionBar.setQuery(
+                                    previousQuery + ", " + child.getText(), false);
+                        }
+                        /*if(child.isChecked()){
+                            //do something on enabling it
+                            child.setEnabled(false);  // disable it
+                        }*/
+                    }
+                    child.setChecked(true);
                 }
             });
+            // check it is enabled
+
+
+
         }
-        /*
-        // Search is onGoing
-        searchViewAndroidActionBar.setOnSearchClickListener(new View.OnClickListener() {
+        //searchFilterItem.setVisible(true);
+
+        // Search State
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
-            public void onClick(View view) {
-                filter.setVisibility(View.VISIBLE);
-
-            }
-        });*/
-
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        // Search has stopped
-        searchViewAndroidActionBar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(!b) {
-                    filter.setVisibility(View.GONE);
-                    fab.setVisibility(View.GONE);
-
-                }
-                else {
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Log.i("DBG",Boolean.toString(filterFlag));
+                if(filterFlag) {
+                    searchFilterItem.setVisible(false);
                     filter.setVisibility(View.VISIBLE);
-                    fab.setVisibility(View.GONE);
+                    mSearchView.setFocusable(false);
+
 
                 }
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                filterFlag = false;
+                searchFlag = false;
+                mSearchView.setFocusable(true);
+                searchFilterItem.setVisible(true);
+                filter.setVisibility(View.GONE);
+                for(int index=0; index<filterSearch.getChildCount(); ++index) {
+                    ToggleButton child = (ToggleButton) filterSearch.getChildAt(index);
+                    child.setChecked(false);
+                }
+                return true;
             }
         });
+
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -284,7 +276,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
+            searchFlag = true;
+            return true;
+        }
 
+        // filter state changed
+        if (id == R.id.action_filter) {
+            filterFlag = true;
+            mSearchItem.expandActionView();
+            mSearchView.clearFocus();
             return true;
         }
 
@@ -309,16 +309,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
+            mAdapter.getFilter().filter("");
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;
 
 
-        } /*else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_caught) {
+            Log.i("DBG","in gallery");
+            mAdapter.showFav(getApplicationContext());
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
 
-        } else if (id == R.id.nav_slideshow) {
+        } /*else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 

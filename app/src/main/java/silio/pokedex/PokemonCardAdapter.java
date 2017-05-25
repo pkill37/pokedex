@@ -2,6 +2,7 @@ package silio.pokedex;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
@@ -24,14 +25,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter.PokemonCardViewHolder> {
 
     private List<PokemonCard> pokemonCardList;
     private List<PokemonCard> originalList;
+
+    private static Set<String> caughtNameSet = new HashSet<>();
+
 
     private static final HashMap<String, Integer> typeColor;
     static
@@ -82,7 +89,6 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
                     context.startActivity(new Intent(context, PokemonActivity.class));
                 }
             });
-
         }
     }
 
@@ -188,6 +194,32 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             }
         };
     }
+
+    public void showFav(Context context){
+        SharedPreferences settings = context.getSharedPreferences("pokedex", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        Set<String> caught =  settings.getStringSet("caught", new HashSet<String>());
+        List<PokemonCard> newList = new ArrayList<>();
+        if (originalList == null)
+            originalList = pokemonCardList;
+
+        if (originalList != null & originalList.size() > 0) {
+            for (final PokemonCard g : originalList) {
+                boolean match = false;
+                for(String searchSubstring : caught) {
+                    if(g.getPokemonName().toLowerCase().contains(searchSubstring)) {
+                        newList.add(g);
+                        break;
+                    }
+                }
+            }
+        }
+        pokemonCardList = newList;
+        notifyDataSetChanged();
+    }
+
+
+
 
 }
 

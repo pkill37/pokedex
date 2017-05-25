@@ -14,6 +14,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -48,90 +50,130 @@
             android:layout_height="match_parent"
             android:id="@+id/filterSearch">
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Bug"/>
+                android:text="@string/bug"
+                android:textOn="@string/bug"
+                android:textOff="@string/bug"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Dark"/>
+                android:text="@string/dark"
+                android:textOn="@string/dark"
+                android:textOff="@string/dark"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Dragon"/>
+                android:text="@string/dragon"
+                android:textOn="@string/dragon"
+                android:textOff="@string/dragon"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Electric"/>
+                android:text="@string/electric"
+                android:textOn="@string/electric"
+                android:textOff="@string/electric"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fighting"/>
+                android:text="@string/fighting"
+                android:textOn="@string/fighting"
+                android:textOff="@string/fighting"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Fire"/>
+                android:text="@string/fire"
+                android:textOn="@string/fire"
+                android:textOff="@string/fire"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Flying"/>
+                android:text="@string/flying"
+                android:textOn="@string/flying"
+                android:textOff="@string/flying"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Ghost"/>
+                android:text="@string/ghost"
+                android:textOn="@string/ghost"
+                android:textOff="@string/ghost"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Grass"/>
+                android:text="@string/grass"
+                android:textOn="@string/grass"
+                android:textOff="@string/grass"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Ground"/>
+                android:text="@string/ground"
+                android:textOn="@string/ground"
+                android:textOff="@string/ground"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Ice"/>
+                android:text="@string/ice"
+                android:textOn="@string/ice"
+                android:textOff="@string/ice"/>
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Normal"/>
+                android:text="@string/normal"
+                android:textOn="@string/normal"
+                android:textOff="@string/normal"
+                />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Poison"/>
+                android:text="@string/poison"
+                android:textOn="@string/poison"
+                android:textOff="@string/poison"
+                />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Psychic"/>
+                android:text="@string/psychic"
+                android:textOn="@string/psychic"
+                android:textOff="@string/psychic"
+                />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Rock"/>
+                android:text="@string/rock"
+                android:textOn="@string/rock"
+                android:textOff="@string/rock"
+                />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Steel"/>
+                android:text="@string/steel"
+                android:textOn="@string/steel"
+                android:textOff="@string/steel"
+                />
 
-            <Button
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Water"/>
+                android:text="@string/water"
+                android:textOn="@string/water"
+                android:textOff="@string/water"
+                />
 
         </LinearLayout>
 
