@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.Map;
+
 public class PokemonDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class PokemonDetailsFragment extends Fragment {
         valueSpecialDefense.setText(Integer.toString(specialDefense));
 
         int speed = pokemon.getSpeed();
+        Log.i("HELP","speed :"+Integer.toString(speed)+"//");
         ProgressBar barSpeed = (ProgressBar) rootView.findViewById(R.id.barSpeed);
         barSpeed.setProgress(statToPercentage(speed));
         TextView valueSpeed = (TextView) rootView.findViewById(R.id.valueSpeed);
@@ -67,14 +70,13 @@ public class PokemonDetailsFragment extends Fragment {
         Picasso.with(getContext()).load(uriSprite).into(ivSprite);
 
         TextView textName = (TextView) rootView.findViewById(R.id.pokemon_name);
-        textName.setText(pokemon.getSprite());
+        textName.setText(pokemon.getName());
 
         TextView textType1 = (TextView) rootView.findViewById(R.id.pokemon_type1);
         textType1.setBackgroundResource(pokemon.getTypes()[0].color());
         textType1.setText(pokemon.getTypes()[0].type());
 
-        // TODO: update visibility check
-        if (true) {
+        if (pokemon.getTypes()[1] != null) {
             TextView textType2 = (TextView) rootView.findViewById(R.id.pokemon_type2);
             textType2.setVisibility(View.VISIBLE);
             textType2.setBackgroundResource(pokemon.getTypes()[1].color());
@@ -89,14 +91,18 @@ public class PokemonDetailsFragment extends Fragment {
                 { R.id.pokemon_evolution3_name, R.id.pokemon_evolution3 }
         };
 
-        for (int i = 0; i < 3; i++) {
+        Map<Integer, String> evolutions = pokemon.getEvolutions();
+
+        int i = 0;
+        for (Integer key : evolutions.keySet()) {
             TextView textEvolution = (TextView) rootView.findViewById(ids[i][0]);
             textEvolution.setVisibility(View.VISIBLE);
-            textEvolution.setText("Charmander");
+            textEvolution.setText(evolutions.get(key));
             ImageView ivEvolution = (ImageView) rootView.findViewById(ids[i][1]);
             ivEvolution.setVisibility(View.VISIBLE);
-            Uri uriEvolution = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + Integer.toString(4+i) + ".png");
+            Uri uriEvolution = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + Integer.toString(key) + ".png");
             Picasso.with(getContext()).load(uriEvolution).fit().into(ivEvolution);
+            i++;
         }
 
         return rootView;

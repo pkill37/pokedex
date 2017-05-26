@@ -26,6 +26,12 @@ public class PokemonCard implements Serializable{
     public PokemonCard(int id, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, String name, String description, Type[] types, String sprite, List<Move> moves, Map<Integer, String> evolutions) {
 
         this.id = id;
+        this.hp = hp;
+        this.attack = attack;
+        this.defense = defense;
+        this.specialAttack = specialAttack;
+        this.specialDefense = specialDefense;
+        this.speed = speed;
         this.name = name;
         this.description = description;
         this.types = types;
