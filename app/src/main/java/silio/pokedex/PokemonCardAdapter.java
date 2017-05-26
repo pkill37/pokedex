@@ -197,22 +197,22 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
         SharedPreferences settings = context.getSharedPreferences("pokedex", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         Set<String> caught = settings.getStringSet("caught", new HashSet<String>());
+
         List<PokemonCard> newList = new ArrayList<>();
         if (originalList == null)
             originalList = pokemonCardList;
 
         if (originalList != null & originalList.size() > 0) {
             for (final PokemonCard g : savedPokemonList) {
-                boolean match = false;
-                for(String searchSubstring : caught) {
-                    if(g.getName().toLowerCase().contains(searchSubstring)) {
+                for(String search: caught) {
+                    if(g.getName().toLowerCase().contains(search.toLowerCase())) {
                         newList.add(g);
                         break;
                     }
                 }
             }
         }
-
+        Log.i("HELP","unique, set<String> : final size : "+ newList.size());
         pokemonCardList = newList;
         originalList = newList;
         notifyDataSetChanged();

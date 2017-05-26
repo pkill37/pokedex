@@ -39,6 +39,13 @@ public class PokemonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            pokemonCard = (PokemonCard) bundle.getSerializable("pokemon");
+            pokemonName = pokemonCard.getName();
+            Log.i("HELP","got stuff");
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,6 +63,11 @@ public class PokemonActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
+
+
+
+
+
     }
 
 
@@ -69,8 +81,11 @@ public class PokemonActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         caught =  settings.getStringSet("caught", new HashSet<String>());
 
-        if(caught.contains(pokemonName))
+        if(caught.contains(pokemonName.toLowerCase()))
             star_checked = true;
+
+        if(pokemonName != null)
+            getSupportActionBar().setTitle(pokemonName);
 
         menu.findItem(R.id.action_favorite).setIcon(star_checked?R.drawable.ic_star_24dp:R.drawable.ic_star_border_24dp);
         return true;
@@ -99,15 +114,13 @@ public class PokemonActivity extends AppCompatActivity {
             Log.i("DBG","in fav");
             Set<String> caught;
 
-
-
             if(star_checked){
 
                 SharedPreferences settings = getSharedPreferences("pokedex", MODE_PRIVATE);
                 SharedPreferences.Editor editor = settings.edit();
 
                 caught =  settings.getStringSet("caught", new HashSet<String>());
-                caught.add(pokemonName);
+                caught.add(pokemonName.toLowerCase());
                 editor.remove("caught");
                 editor.apply();
                 editor.putStringSet("caught",caught);
@@ -118,7 +131,7 @@ public class PokemonActivity extends AppCompatActivity {
                 SharedPreferences settings = getSharedPreferences("pokedex", MODE_PRIVATE);
                 SharedPreferences.Editor editor = settings.edit();
                 caught =  settings.getStringSet("caught", new HashSet<String>());
-                caught.remove(pokemonName);
+                caught.remove(pokemonName.toLowerCase());
                 editor.remove("caught");
                 editor.apply();
                 editor.putStringSet("caught",caught);

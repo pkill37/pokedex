@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                     mPokedexAdapter.getFilter().filter("");
                     //Don't show keyboard on clear
                     //Not proud of how it's done
-                    if(filterFlag && !searchFlag) {
+                    if(filterFlag) {
                         mSearchView.post(new Runnable() {
                             @Override
                             public void run() {

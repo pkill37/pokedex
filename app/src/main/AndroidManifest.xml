@@ -25,7 +25,7 @@
 
         <activity
             android:name=".PokemonActivity"
-            android:label="@string/title_activity_pokemon_detail"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity">
 
