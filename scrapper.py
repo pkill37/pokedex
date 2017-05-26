@@ -9,30 +9,32 @@ def find(lst, f):
     return list(filter(lambda x: f(x), lst))[0]
 
 def get_pokemon_moves(data):
-    moves = []
-    urls = [move['move']['url'] for move in data['moves']]
+    ret = []
 
     i = 0
-    for url in urls:
-        r = requests.get(url)
-        move = r.json()
+    for move in data['moves']:
+        r = requests.get(move['move']['url'])
+        m = r.json()
 
-        moves.append({
-            'method': 'Level 80',
-            'name': find(move['names'], lambda x: x['language']['name'] == 'en')['name'],
-            'type': move['type']['name'],
-            'category': move['damage_class']['name'],
-            'pp': move['pp'],
-            'power': move['power'],
-            'accuracy': move['accuracy']
-        })
+        try:
+            level = find(move['version_group_details'], lambda x: x['move_learn_method']['name'] == 'level-up' and x['version_group']['name'] == 'firered-leafgreen')['level_learned_at']
+            ret.append({
+                'method': level,
+                'name': find(m['names'], lambda x: x['language']['name'] == 'en')['name'],
+                'type': m['type']['name'],
+                'category': m['damage_class']['name'],
+                'pp': m['pp'],
+                'power': m['power'],
+                'accuracy': m['accuracy']
+            })
+        except:
+            continue
 
         if i == 5:
             break
         i+=1
-        print(moves[-1])
 
-    return moves
+    return ret
 
 def get_pokemon_evolutions(chain):
     if not chain['evolves_to']:
@@ -84,9 +86,10 @@ def main():
     pokemons = []
 
     for i in range(1, n+1):
-        print(i)
         pokemons.append(get_pokemon(i))
         print(pokemons[-1])
+        print()
+        print()
 
     with open('app/src/main/assets/pokedex.json', 'w') as f:
         json.dump(pokemons, f)

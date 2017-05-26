@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity
                         JSONObject moveJson = (JSONObject) movesJson.get(j);
                         moves.add(new Move(
                                 moveJson.getString("name"),
-                                moveJson.getString("method"),
+                                Integer.toString(moveJson.getInt("method")),
                                 Integer.valueOf(moveJson.getString("power").equals("null") ? "0" : moveJson.getString("power")),
                                 Integer.valueOf(moveJson.getString("accuracy").equals("null") ? "0": moveJson.getString("accuracy")),
                                 Integer.valueOf(moveJson.getString("pp").equals("null") ? "0" : moveJson.getString("pp")),

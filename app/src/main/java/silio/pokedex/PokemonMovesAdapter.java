@@ -46,7 +46,7 @@ public class PokemonMovesAdapter extends RecyclerView.Adapter<PokemonMovesAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Move move = moves.get(position);
 
-        holder.level.setText("Level " + move.getMethod());
+        holder.level.setText(move.getMethod());
 
         holder.name.setText(move.getName());
 
