@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.net.Uri;
+import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,8 +35,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter.PokemonCardViewHolder> {
 
+    //base list for search (filter(""))
     private List<PokemonCard> pokemonCardList;
+    //list after search
     private List<PokemonCard> originalList;
+    //static pokemon list
+    private List<PokemonCard> savedPokemonList;
+    private boolean fav = false;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -54,25 +60,20 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             sprite = (ImageView) itemView.findViewById(R.id.sprite);
             primaryTypeColor = itemView.findViewById(R.id.primary_type_color);
             secondaryTypeColor = itemView.findViewById(R.id.secondary_type_color);
-            pokemonCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    context.startActivity(new Intent(context, PokemonActivity.class));
-                }
-            });
         }
     }
 
     public PokemonCardAdapter(List<PokemonCard> pokemonCardList) {
         this.pokemonCardList = pokemonCardList;
+        this.savedPokemonList = pokemonCardList;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public PokemonCardViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public PokemonCardViewHolder onCreateViewHolder(ViewGroup parent, final int i) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.pokemon_card, parent, false);
         PokemonCardViewHolder pcvh = new PokemonCardViewHolder(v);
+
         return pcvh;
     }
 
@@ -80,7 +81,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     // used when contents come into view
     // card info relative to position is treated here
     @Override
-    public void onBindViewHolder(PokemonCardViewHolder pokemonHolder, int position) {
+    public void onBindViewHolder(final PokemonCardViewHolder pokemonHolder, final int position) {
         String name = pokemonCardList.get(position).getName();
         pokemonHolder.pokemonName.setText(name.substring(0,1).toUpperCase() + name.substring(1));
 
@@ -98,11 +99,39 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
             pokemonHolder.secondaryTypeColor.setBackgroundResource(primaryColorResource);
         }
 
-        Uri uri = pokemonCardList.get(position).getSprite();
+        String uri = pokemonCardList.get(position).getSprite();
         Context context = pokemonHolder.sprite.getContext();
 
-        Log.i("DB", "getting:" + uri.toString());
         Picasso.with(context).load(uri).into(pokemonHolder.sprite);
+        pokemonHolder.pokemonCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                //Toast.makeText(context,.getName(),Toast.LENGTH_SHORT).show();
+                //handle click
+                PokemonCard clicked = pokemonCardList.get(pokemonHolder.getAdapterPosition());
+                Intent i = new Intent();
+                Bundle b = new Bundle();
+                b.putSerializable("pokemon", clicked);
+                i.putExtras(b);
+                i.setClass(context, PokemonActivity.class);
+                context.startActivity(i);
+            }
+        });
+        /*pokemonHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Toast.makeText(context,Integer.toString(pokemonHolder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+                Log.i("HELP","onCreateviewholder");
+                Log.i("HELP",Integer.toString(position));
+
+                /*Intent pokeIntent = new Intent(context, PokemonActivity.class);
+                v.getChil
+
+
+            }
+        });*/
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -114,6 +143,7 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
     // add search functionality
     public Filter getFilter() {
         return new Filter() {
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -163,16 +193,16 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
         };
     }
 
-    public void showFav(Context context){
+    public void setFav(Context context){
         SharedPreferences settings = context.getSharedPreferences("pokedex", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        Set<String> caught =  settings.getStringSet("caught", new HashSet<String>());
+        Set<String> caught = settings.getStringSet("caught", new HashSet<String>());
         List<PokemonCard> newList = new ArrayList<>();
         if (originalList == null)
             originalList = pokemonCardList;
 
         if (originalList != null & originalList.size() > 0) {
-            for (final PokemonCard g : originalList) {
+            for (final PokemonCard g : savedPokemonList) {
                 boolean match = false;
                 for(String searchSubstring : caught) {
                     if(g.getName().toLowerCase().contains(searchSubstring)) {
@@ -184,8 +214,22 @@ public class PokemonCardAdapter extends  RecyclerView.Adapter<PokemonCardAdapter
         }
 
         pokemonCardList = newList;
+        originalList = newList;
         notifyDataSetChanged();
     }
+
+    public void setAll(Context context){
+
+            pokemonCardList = savedPokemonList;
+            originalList = savedPokemonList;
+            notifyDataSetChanged();
+            Log.i("DBG","settingall");
+
+    }
+
+
+
+
 
 }
 

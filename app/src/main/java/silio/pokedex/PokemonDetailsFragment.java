@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,37 +21,41 @@ public class PokemonDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_pokemon_details, container, false);
 
-        int hp = 80;
+        Log.i("HELP","epa tou na oncreateview details");
+        PokemonCard pokemon = (PokemonCard) getArguments().getSerializable("pokemon");
+        Log.i("HELP",pokemon.getName());
+
+        int hp = pokemon.getHp();
         ProgressBar barHp = (ProgressBar) rootView.findViewById(R.id.barHp);
         barHp.setProgress(statToPercentage(hp));
         TextView valueHp = (TextView) rootView.findViewById(R.id.valueHp);
         valueHp.setText(Integer.toString(hp));
 
-        int attack = 190;
+        int attack = pokemon.getAttack();
         ProgressBar barAttack = (ProgressBar) rootView.findViewById(R.id.barAttack);
         barAttack.setProgress(statToPercentage(attack));
         TextView valueAttack = (TextView) rootView.findViewById(R.id.valueAttack);
         valueAttack.setText(Integer.toString(attack));
 
-        int defense = 120;
+        int defense = pokemon.getDefense();
         ProgressBar barDefense = (ProgressBar) rootView.findViewById(R.id.barDefense);
         barDefense.setProgress(statToPercentage(defense));
         TextView valueDefense = (TextView) rootView.findViewById(R.id.valueDefense);
         valueDefense.setText(Integer.toString(defense));
 
-        int specialAttack = 40;
+        int specialAttack = pokemon.getSpecialAttack();
         ProgressBar barSpecialAttack = (ProgressBar) rootView.findViewById(R.id.barSpecialAttack);
         barSpecialAttack.setProgress(statToPercentage(specialAttack));
         TextView valueSpecialAttack = (TextView) rootView.findViewById(R.id.valueSpecialAttack);
         valueSpecialAttack.setText(Integer.toString(specialAttack));
 
-        int specialDefense = 150;
+        int specialDefense = pokemon.getSpecialDefense();
         ProgressBar barSpecialDefense = (ProgressBar) rootView.findViewById(R.id.barSpecialDefense);
         barSpecialDefense.setProgress(statToPercentage(specialDefense));
         TextView valueSpecialDefense = (TextView) rootView.findViewById(R.id.valueSpecialDefense);
         valueSpecialDefense.setText(Integer.toString(specialDefense));
 
-        int speed = 240;
+        int speed = pokemon.getSpeed();
         ProgressBar barSpeed = (ProgressBar) rootView.findViewById(R.id.barSpeed);
         barSpeed.setProgress(statToPercentage(speed));
         TextView valueSpeed = (TextView) rootView.findViewById(R.id.valueSpeed);
@@ -58,27 +63,26 @@ public class PokemonDetailsFragment extends Fragment {
 
 
         ImageView ivSprite = (ImageView) rootView.findViewById(R.id.pokemon_sprite);
-        Uri uriSprite = Uri.parse("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png");
+        Uri uriSprite = Uri.parse(pokemon.getSprite());
         Picasso.with(getContext()).load(uriSprite).into(ivSprite);
 
         TextView textName = (TextView) rootView.findViewById(R.id.pokemon_name);
-        textName.setText("Charizard");
+        textName.setText(pokemon.getSprite());
 
         TextView textType1 = (TextView) rootView.findViewById(R.id.pokemon_type1);
-        textType1.setBackgroundResource(Type.valueOf("fire").color());
-        textType1.setText("Fire");
+        textType1.setBackgroundResource(pokemon.getTypes()[0].color());
+        textType1.setText(pokemon.getTypes()[0].type());
 
         // TODO: update visibility check
         if (true) {
             TextView textType2 = (TextView) rootView.findViewById(R.id.pokemon_type2);
             textType2.setVisibility(View.VISIBLE);
-            textType2.setBackgroundResource(Type.valueOf("flying").color());
-            textType2.setText("Flying");
+            textType2.setBackgroundResource(pokemon.getTypes()[1].color());
+            textType2.setText(pokemon.getTypes()[1].type());
         }
 
         TextView textDescription = (TextView) rootView.findViewById(R.id.pokemon_description);
-        textDescription.setText("Charizard flies around the sky in search of powerful opponents. It breathes fire of such great heat that it melts anything.");
-
+        textDescription.setText(pokemon.getDescription());
         int[][] ids = new int[][]{
                 { R.id.pokemon_evolution1_name, R.id.pokemon_evolution1 },
                 { R.id.pokemon_evolution2_name, R.id.pokemon_evolution2 },

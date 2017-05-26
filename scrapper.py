@@ -80,7 +80,7 @@ def get_pokemon(i):
     }
 
 def main():
-    n = 5
+    n = 20
     pokemons = []
 
     for i in range(1, n+1):

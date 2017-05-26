@@ -47,13 +47,15 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView mRecyclerView;
-    private PokemonCardAdapter mAdapter;
+    private PokemonCardAdapter mPokedexAdapter;
+    private PokemonCardAdapter mFavoritesAdapter;
     private GridLayoutManager mLayoutManager;
     private SearchView mSearchView;
     private MenuItem mSearchItem;
     private LinearLayout filterSearch;
-    private static boolean filterFlag = false;
-    private static boolean searchFlag = false;
+    private boolean filterFlag = false;
+    private boolean searchFlag = false;
+    private boolean favoritePage = false;
 
     // could be put in a sort of Utils class, that'd be nice
     private final String baseURL = "http://pokeapi.co/api/v2/";
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int visibility = (mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) ? View.VISIBLE : View.GONE;
-                if (mAdapter.getItemCount() != 0)
+                if (mPokedexAdapter.getItemCount() != 0)
                     fab.setVisibility(visibility);
             }
         });
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(String newText) {
 
                 if ( TextUtils.isEmpty ( newText ) ) {
-                    mAdapter.getFilter().filter("");
+                    mPokedexAdapter.getFilter().filter("");
                     //Don't show keyboard on clear
                     //Not proud of how it's done
                     if(filterFlag && !searchFlag) {
@@ -189,7 +192,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 } else {
-                    mAdapter.getFilter().filter(newText);
+                    mPokedexAdapter.getFilter().filter(newText);
 
                 }
                 return false;
@@ -312,16 +315,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-            mAdapter.getFilter().filter("");
+            favoritePage = false;
+            getSupportActionBar().setTitle("Pokédex");
+            mPokedexAdapter.setAll(getApplicationContext());
+            mPokedexAdapter.getFilter().filter("");
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;
 
 
         } else if (id == R.id.nav_caught) {
-            Log.i("DBG","in gallery");
-            mAdapter.showFav(getApplicationContext());
+            favoritePage = true;
+            getSupportActionBar().setTitle("Favorite");
+            mPokedexAdapter.setFav(getApplicationContext());
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             return true;
@@ -382,9 +388,15 @@ public class MainActivity extends AppCompatActivity
                     JSONObject pokemonCard = (JSONObject) pokemonCardArray.get(i);
 
                     int id = pokemonCard.getInt("id");
+                    int hp = pokemonCard.getInt("hp");
+                    int attack = pokemonCard.getInt("attack");
+                    int defense = pokemonCard.getInt("defense");
+                    int specialAttack = pokemonCard.getInt("special_attack");
+                    int specialDefense = pokemonCard.getInt("special_defense");
+                    int speed = pokemonCard.getInt("speed");
                     String name = pokemonCard.getString("name");
                     String description = pokemonCard.getString("description");
-                    Uri sprite = Uri.parse(pokemonCard.getString("sprite"));
+                    String sprite = pokemonCard.getString("sprite");
 
                     JSONArray movesJson = pokemonCard.getJSONArray("moves");
                     List<Move> moves = new ArrayList<>();
@@ -419,7 +431,7 @@ public class MainActivity extends AppCompatActivity
                         types = new Type[]{ Type.valueOf(typesJson.getString(0)), null };
                     }
 
-                    pokemonCardList.add(new PokemonCard(id, name, description, types, sprite, moves, evolutions));
+                    pokemonCardList.add(new PokemonCard(id, hp, attack, defense, specialAttack, specialDefense, speed, name, description, types, sprite, moves, evolutions));
                 }
             }
             catch (JSONException e) {
@@ -432,9 +444,20 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(List<PokemonCard> pokemonCardList) {
             super.onPostExecute(pokemonCardList);
-            mAdapter = new PokemonCardAdapter(pokemonCardList);
-            mRecyclerView.setAdapter(mAdapter);
+            mPokedexAdapter = new PokemonCardAdapter(pokemonCardList);
+            mRecyclerView.setAdapter(mPokedexAdapter);
         }
+
     }
+
+    @Override
+    protected void onRestart() {
+        if(favoritePage) {
+            mPokedexAdapter.setFav(getApplicationContext());
+        }
+        super.onRestart();
+    }
+
+
 
 }

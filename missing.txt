@@ -1,0 +1,26 @@
+Filter
+Order
+Fab Animation
+Coming soon nav bar
+Dynamic pokemon page
+Colors of:
+   Stats
+   Types
+Clickable strong against
+Floating context menu
+Zoomable map
+Bug on open search RecyclerView adapts again
+No pokemon found info
+Round Buttons
+Search, same search twice is a no no
+Star animation
+Base Stats change order?
+Order Filter LRU
+FilterSearchBar visibility animation
+ListView on FilterSearchBar
+Support older versions
+Navbar interferes with searchFilter
+check charSequence vs String
+MaxZoom in PlacesFragment
+Seen And Caught Lists
+Switch to Fragments

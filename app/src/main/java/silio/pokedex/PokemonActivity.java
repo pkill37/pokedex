@@ -30,7 +30,8 @@ public class PokemonActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private boolean star_checked = false;
-    private String pokemonName = "charizard";
+    private String pokemonName;
+    private PokemonCard pokemonCard;
 
 
     @Override
@@ -53,6 +54,8 @@ public class PokemonActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
     }
 
 
@@ -105,7 +108,6 @@ public class PokemonActivity extends AppCompatActivity {
 
                 caught =  settings.getStringSet("caught", new HashSet<String>());
                 caught.add(pokemonName);
-                caught.add("charmeleon");
                 editor.remove("caught");
                 editor.apply();
                 editor.putStringSet("caught",caught);
@@ -139,13 +141,25 @@ public class PokemonActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                pokemonCard = (PokemonCard) bundle.getSerializable("pokemon");
+                pokemonName = pokemonCard.getName();
+            }
+
             switch (position) {
                 case 0:
-                    return new PokemonDetailsFragment();
+                    Fragment a = new PokemonDetailsFragment();
+                    a.setArguments(bundle);
+                    return a;
                 case 1:
-                    return new PokemonMovesFragment();
+                    Fragment b = new PokemonMovesFragment();
+                    b.setArguments(bundle);
+                    return b;
                 case 2:
-                    return new PokemonPlacesFragment();
+                    Fragment c = new PokemonPlacesFragment();
+                    c.setArguments(bundle);
+                    return c;
                 default:
                     return null;
             }

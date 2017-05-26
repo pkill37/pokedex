@@ -1,6 +1,8 @@
 package silio.pokedex;
 
-public class Move extends Object {
+import java.io.Serializable;
+
+public class Move extends Object implements Serializable {
     private final String name;
     private final String method;
     private final int power;

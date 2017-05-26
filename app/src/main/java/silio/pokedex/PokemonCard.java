@@ -3,20 +3,27 @@ package silio.pokedex;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-public class PokemonCard {
+public class PokemonCard implements Serializable{
     private int id;
+    private int hp;
+    private int attack;
+    private int defense;
+    private int specialAttack;
+    private int specialDefense;
+    private int speed;
     private String name;
     private String description;
     private Type[] types;
-    private Uri sprite;
+    private String sprite;
     private List<Move> moves;
     private Map<Integer, String> evolutions;
 
-    public PokemonCard(int id, String name, String description, Type[] types, Uri sprite, List<Move> moves, Map<Integer, String> evolutions) {
+    public PokemonCard(int id, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, String name, String description, Type[] types, String sprite, List<Move> moves, Map<Integer, String> evolutions) {
 
         this.id = id;
         this.name = name;
@@ -33,6 +40,55 @@ public class PokemonCard {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getSpecialAttack() {
+        return specialAttack;
+    }
+
+    public void setSpecialAttack(int specialAttack) {
+        this.specialAttack = specialAttack;
+    }
+
+    public int getSpecialDefense() {
+        return specialDefense;
+    }
+
+    public void setSpecialDefense(int specialDefense) {
+        this.specialDefense = specialDefense;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public String getName() {
@@ -59,11 +115,11 @@ public class PokemonCard {
         this.types = types;
     }
 
-    public Uri getSprite() {
+    public String getSprite() {
         return sprite;
     }
 
-    public void setSprite(Uri sprite) {
+    public void setSprite(String sprite) {
         this.sprite = sprite;
     }
 
