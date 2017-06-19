@@ -3,6 +3,7 @@ import json
 from functools import reduce
 from pprint import pprint
 import threading
+from retrying import retry
 
 
 def find(lst, f):
@@ -11,7 +12,6 @@ def find(lst, f):
 def get_pokemon_moves(data):
     ret = []
 
-    i = 0
     for move in data['moves']:
         r = requests.get(move['move']['url'])
         m = r.json()
@@ -30,10 +30,6 @@ def get_pokemon_moves(data):
         except:
             continue
 
-        if i == 5:
-            break
-        i+=1
-
     return ret
 
 def get_pokemon_evolutions(chain):
@@ -43,6 +39,7 @@ def get_pokemon_evolutions(chain):
     # huge simplification here by picking the first possible evolution in the chain
     return [{'id': int(chain['species']['url'].split('/')[-2]), 'name': chain['species']['name']}] + get_pokemon_evolutions(chain['evolves_to'][0])
 
+@retry(wait_random_min=1800000, wait_random_max=3600000)
 def get_pokemon(i):
     pokemon_id = str(i)
 
@@ -56,9 +53,12 @@ def get_pokemon(i):
     r = requests.get("http://pokeapi.co/api/v2/pokemon-species/" + pokemon_id)
     species = r.json()
 
-    r = requests.get(species['evolution_chain']['url'])
-    chain = r.json()
-    evolutions = get_pokemon_evolutions(chain['chain'])
+    try:
+        r = requests.get(species['evolution_chain']['url'])
+        chain = r.json()
+        evolutions = get_pokemon_evolutions(chain['chain'])
+    except:
+        evolutions = []
 
     r = requests.get("http://pokeapi.co/api/v2/pokemon/" + pokemon_id + "/encounters")
     encounters = reduce(lambda x, y: x + [y['location_area']['name']], r.json(), [])
@@ -82,7 +82,7 @@ def get_pokemon(i):
     }
 
 def main():
-    n = 20
+    n = 151
     pokemons = []
 
     for i in range(1, n+1):
@@ -90,9 +90,8 @@ def main():
         print(pokemons[-1])
         print()
         print()
-
-    with open('app/src/main/assets/pokedex.json', 'w') as f:
-        json.dump(pokemons, f)
+        with open('app/src/main/assets/pokedex.json', 'w') as f:
+            json.dump(pokemons, f)
 
 if __name__ == "__main__":
     main()
