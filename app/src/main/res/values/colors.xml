@@ -27,15 +27,15 @@
     <color name="colorDarkType">#616161</color>
     <color name="colorSteelType">#90A4AE</color>
     <color name="colorRockType">#E0E0E0</color>
-    <color name="colorNormalType">#FFE0B2</color>
+    <color name="colorNormalType">#A8A878</color>
     <color name="colorGroundType">#A1887F</color>
     <!--pokemon stat colors-->
-    <color name="colorHP">#EF5350</color>
-    <color name="colorAtk">#FFA726</color>
-    <color name="colorDef">#FFEB3B</color>
-    <color name="colorSpAtk">#29B6F6</color>
-    <color name="colorSpDef">#66BB6A</color>
-    <color name="colorSpeed">#EC407A</color>
+    <color name="colorHP">#FF0000</color>
+    <color name="colorAtk">#F08030</color>
+    <color name="colorDef">#F8D030</color>
+    <color name="colorSpAtk">#6890F0</color>
+    <color name="colorSpDef">#78C850</color>
+    <color name="colorSpeed">#F85888</color>
 
     <!-- move category colors -->
     <color name="colorPhysicalMove">#b71c1c</color>

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class PokemonMovesFragment extends Fragment {
@@ -30,6 +32,12 @@ public class PokemonMovesFragment extends Fragment {
         for (Move move : pokemon.getMoves()) {
             moves.add(new Move(move.getName(), move.getMethod(), move.getPower(), move.getAccuracy(), move.getPp(), move.getType(), move.getCategory()));
         }
+        Collections.sort(moves, new Comparator<Move>() {
+            public int compare(Move o1, Move o2) {
+                return Integer.parseInt(o1.getMethod().replaceAll("\\D+","")) -
+                        Integer.parseInt(o2.getMethod().replaceAll("\\D+",""));
+            }
+        });
 
         PokemonMovesAdapter adapter = new PokemonMovesAdapter(moves);
         recyclerView.setAdapter(adapter);

@@ -125,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorHP"
                         android:progress="35" />
 
                     <TextView
@@ -159,6 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorAtk"
                         android:progress="35" />
 
                     <TextView
@@ -193,6 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorDef"
                         android:progress="35" />
 
                     <TextView
@@ -227,6 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorSpAtk"
                         android:progress="35" />
 
                     <TextView
@@ -261,6 +265,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorSpDef"
                         android:progress="35" />
 
                     <TextView
@@ -295,6 +300,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/StatBar"
+                        android:progressTint="@color/colorSpeed"
                         android:progress="35" />
 
                     <TextView

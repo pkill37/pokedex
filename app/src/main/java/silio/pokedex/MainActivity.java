@@ -409,8 +409,9 @@ public class MainActivity extends AppCompatActivity
                                 Integer.valueOf(moveJson.getString("accuracy").equals("null") ? "0": moveJson.getString("accuracy")),
                                 Integer.valueOf(moveJson.getString("pp").equals("null") ? "0" : moveJson.getString("pp")),
                                 Type.valueOf(moveJson.getString("type")),
-                                Move.Category.valueOf(moveJson.getString("category"))
+                                Category.valueOf(moveJson.getString("category"))
                         ));
+                        Log.i("DEBUG", moveJson.getString("category"));
                     }
 
                     JSONArray evolutionsJson = pokemonCard.getJSONArray("evolutions");
